@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eshimov Azizbek - Community Forum</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./styles/forum.css">
+</head>
+  <body>
+    <nav>
+      <div class="container nav-container">
+        <div class="logo">EA</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#achievements">Achievements</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="forum.html" class="active">Forum</a></li>
+          <li class="user-menu" id="userMenu">
+            <div class="user-profile">
+              <div class="user-avatar" id="userAvatar">EA</div>
+              <span id="userName">Eshimov Azizbek</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+              <a href="dashboard.html" class="dropdown-item">My Dashboard</a>
+              <a href="#" class="dropdown-item" id="loginBtn">Login</a>
+              <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container forum-container">
+      <div class="forum-sidebar">
+        <div class="sidebar-section">
+          <h3>Forum Stats</h3>
+          <div class="forum-stats">
+            <div class="stat">
+              <div class="stat-value" id="topicsCount">0</div>
+              <div class="stat-label">Topics</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="commentsCount">0</div>
+              <div class="stat-label">Comments</div>
+            </div>
+            <div class="stat">
+              <div class="stat-value" id="usersCount">0</div>
+              <div class="stat-label">Users</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>Leaderboard</h3>
+          <div class="leaderboard-list" id="leaderboardList"></div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>Recent Topics</h3>
+          <div class="recent-topics-list" id="recentTopicsList"></div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>Forum Rules</h3>
+          <ul style="font-size: 0.9rem; padding-left: 20px; color: #666">
+            <li>Be respectful to other members</li>
+            <li>Stay on topic in discussions</li>
+            <li>No spam or self-promotion</li>
+            <li>Earn XP by participating</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="forum-main">
+        <div class="forum-card">
+          <div class="forum-header">
+            <h2>Community Forum</h2>
+            <button class="btn" id="createTopicBtn">Create New Topic</button>
+          </div>
+
+          <div class="category-filter">
+            <button class="category-btn active" data-category="all">
+              All Topics
+            </button>
+            <button class="category-btn" data-category="web-dev">
+              Web Development
+            </button>
+            <button class="category-btn" data-category="programming">
+              Programming
+            </button>
+            <button class="category-btn" data-category="design">Design</button>
+            <button class="category-btn" data-category="career">
+              Career Advice
+            </button>
+            <button class="category-btn" data-category="general">
+              General Discussion
+            </button>
+          </div>
+
+          <div class="topic-list" id="topicList"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="createTopicModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Create New Topic</h2>
+          <button class="close-modal" id="closeTopicModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="createTopicForm">
+            <div class="form-group">
+              <label for="topicTitle">Topic Title</label>
+              <input
+                type="text"
+                id="topicTitle"
+                class="form-control"
+                placeholder="Enter a descriptive title"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="topicCategory">Category</label>
+              <select id="topicCategory" class="form-control" required>
+                <option value="">Select a category</option>
+                <option value="web-dev">Web Development</option>
+                <option value="programming">Programming</option>
+                <option value="design">Design</option>
+                <option value="career">Career Advice</option>
+                <option value="general">General Discussion</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="topicContent">Content</label>
+              <textarea
+                id="topicContent"
+                class="form-control"
+                placeholder="Write your topic content here..."
+                required
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="topicTags">Tags (comma separated)</label>
+              <input
+                type="text"
+                id="topicTags"
+                class="form-control"
+                placeholder="e.g. javascript, css, html"
+              />
+            </div>
+            <button type="submit" class="btn" style="width: 100%">
+              Create Topic
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="loginModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Login</h2>
+          <button class="close-modal" id="closeLoginModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="loginEmail">Email</label>
+              <input
+                type="email"
+                id="loginEmail"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="loginPassword">Password</label>
+              <input
+                type="password"
+                id="loginPassword"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn" style="width: 100%">Login</button>
+          </form>
+          <p style="margin-top: 15px; text-align: center">
+            Don't have an account? <a href="#" id="showSignup">Sign Up</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="signupModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Sign Up</h2>
+          <button class="close-modal" id="closeSignupModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form id="signupForm">
+            <div class="form-group">
+              <label for="signupName">Full Name</label>
+              <input
+                type="text"
+                id="signupName"
+                class="form-control"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupEmail">Email</label>
+              <input
+                type="email"
+                id="signupEmail"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signupPassword">Password</label>
+              <input
+                type="password"
+                id="signupPassword"
+                class="form-control"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn" style="width: 100%">
+              Sign Up
+            </button>
+          </form>
+          <p style="margin-top: 15px; text-align: center">
+            Already have an account? <a href="#" id="showLogin">Login</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Eshimov Azizbek. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="./scripts/forum.js"></script>
+  </body>
+</html>

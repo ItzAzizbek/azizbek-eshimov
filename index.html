@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eshimov Azizbek - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./styles/index.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">EA</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="forum.html">Forum</a></li>
+                <li class="user-menu" id="userMenu" style="display: none;">
+                    <div class="user-profile">
+                        <div class="user-avatar" id="userAvatar">U</div>
+                        <span id="userName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu" id="dropdownMenu">
+                        <a href="dashboard.html" class="dropdown-item">My Dashboard</a>
+                        <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+                    </div>
+                </li>
+                <li class="auth-buttons" id="authButtons">
+                    <button class="btn btn-outline" id="loginBtn">Login</button>
+                    <button class="btn" id="signupBtn">Sign Up</button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="auth-modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <button class="close-modal" id="closeLoginModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Login</button>
+                </form>
+                <p class="form-footer">
+                    Don't have an account? <a href="#" id="showSignup">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Sign Up</h2>
+                <button class="close-modal" id="closeSignupModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Sign Up</button>
+                </form>
+                <p class="form-footer">
+                    Already have an account? <a href="#" id="showLogin">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Eshimov <span class="highlight">Azizbek</span></h1>
+                <p>14-year-old Front-End Developer & Young Prodigy from Uzbekistan</p>
+                <a href="#contact" class="btn">Get In Touch</a>
+            </div>
+        </div>
+        
+        <div class="cube">
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+            <div class="cube-face"></div>
+        </div>
+        
+        <div class="pyramid">
+            <div class="pyramid-face"></div>
+            <div class="pyramid-face"></div>
+            <div class="pyramid-face"></div>
+            <div class="pyramid-face"></div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Hello! I'm Eshimov Azizbek, a 14-year-old front-end developer from Samarkand, Uzbekistan. Despite my young age, I've already developed a passion for creating beautiful and functional websites.</p>
+                    <p>I'm currently in the 9th class and balancing my academic studies with my passion for web development. My goal is to become a full-stack developer and create innovative digital solutions that make a difference.</p>
+                    <p>I believe that age is just a number when it comes to pursuing your passions and achieving your goals.</p>
+                </div>
+                <div class="about-image">
+                    <div class="floating-card">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Samarkand, Uzbekistan</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>9th Class Student</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-code"></i>
+                            <span>Front-End Developer</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-birthday-cake"></i>
+                            <span>14 Years Old</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title">My Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fab fa-html5"></i>
+                    <h3>HTML5</h3>
+                    <p>Creating semantic and accessible web structures with modern HTML5.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-css3-alt"></i>
+                    <h3>CSS3</h3>
+                    <p>Designing responsive and visually appealing interfaces with CSS3 and animations.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                    <p>Building interactive web experiences with vanilla JavaScript.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsive Design</h3>
+                    <p>Creating websites that work perfectly on all devices and screen sizes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="achievements" id="achievements">
+        <div class="container">
+            <h2 class="section-title">My Achievements</h2>
+            <div class="achievement-cards">
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>IELTS 7.0</h3>
+                    <p>Achieved an overall band score of 7.0 in the IELTS exam on February 23, 2025.</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>SAT Test</h3>
+                    <p>Took the SAT test on October 4, 2025. Results are pending.</p>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Front-End Projects</h3>
+                    <p>Developed multiple front-end projects showcasing modern web development skills.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p>I'm always open to discussing new opportunities, collaborations, or just having a friendly chat about technology and development.</p>
+            <a href="mailto:itzazizbek@google.com" class="btn">Send Me an Email</a>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Eshimov Azizbek. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, addDoc, collection } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCfQK0tvsnMUSG9ItP3t2Ejh1mnV1tStv4",
+            authDomain: "eshimov-azizbek.firebaseapp.com",
+            projectId: "eshimov-azizbek",
+            storageBucket: "eshimov-azizbek.firebasestorage.app",
+            messagingSenderId: "214963058663",
+            appId: "1:214963058663:web:97dc951037ef2872622f42",
+            measurementId: "G-DQ2CHSH3KF"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+        const db = getFirestore();
+
+        // DOM Elements
+        const userMenu = document.getElementById('userMenu');
+        const authButtons = document.getElementById('authButtons');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupBtn = document.getElementById('signupBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const loginForm = document.getElementById('loginForm');
+        const signupModal = document.getElementById('signupModal');
+        const closeSignupModal = document.getElementById('closeSignupModal');
+        const signupForm = document.getElementById('signupForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+
+        // Initialize UI
+        function initUI() {
+            onAuthStateChanged(auth, async user => {
+                if (user) {
+                    const userDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        userMenu.style.display = 'flex';
+                        authButtons.style.display = 'none';
+                        userAvatar.textContent = userData.fullName ? userData.fullName.charAt(0).toUpperCase() : 'U';
+                        userName.textContent = userData.fullName ? userData.fullName.split(' ')[0] : 'User';
+                    }
+                    loginBtn.style.display = 'none';
+                    logoutBtn.style.display = 'block';
+                } else {
+                    userMenu.style.display = 'none';
+                    authButtons.style.display = 'flex';
+                    loginBtn.style.display = 'block';
+                    logoutBtn.style.display = 'none';
+                }
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            loginBtn.addEventListener('click', () => {
+                loginModal.style.display = 'flex';
+            });
+
+            signupBtn.addEventListener('click', () => {
+                signupModal.style.display = 'flex';
+            });
+
+            closeLoginModal.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
+
+            closeSignupModal.addEventListener('click', () => {
+                signupModal.style.display = 'none';
+            });
+
+            showSignup.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+                signupModal.style.display = 'flex';
+            });
+
+            showLogin.addEventListener('click', () => {
+                signupModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+            });
+
+            loginForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+
+                try {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    loginModal.style.display = 'none';
+                    loginForm.reset();
+                    alert('Logged in successfully!');
+                } catch (error) {
+                    alert('Login failed: ' + error.message);
+                }
+            });
+
+            signupForm.addEventListener('submit', async e => {
+                e.preventDefault();
+                const fullName = document.getElementById('signupName').value;
+                const email = document.getElementById('signupEmail').value;
+                const password = document.getElementById('signupPassword').value;
+
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    const user = userCredential.user;
+
+                    await setDoc(doc(db, 'users', user.uid), {
+                        fullName,
+                        email,
+                        status: 'user',
+                        exp: 0,
+                        topics: 0,
+                        comments: 0,
+                        followers: 0,
+                        daysActive: 1,
+                        unlockedCustomizations: ['default'],
+                        customization: { avatarFrame: 'default', profileTheme: 'default', badgeDisplay: 'default' }
+                    });
+
+                    await addDoc(collection(db, 'activities'), {
+                        userId: user.uid,
+                        type: 'badge',
+                        message: 'Earned the Welcome badge',
+                        timestamp: new Date()
+                    });
+
+                    signupModal.style.display = 'none';
+                    signupForm.reset();
+                    alert('Account created successfully!');
+                } catch (error) {
+                    alert('Signup failed: ' + error.message);
+                }
+            });
+
+            logoutBtn.addEventListener('click', async e => {
+                e.preventDefault();
+                if (confirm('Are you sure you want to log out?')) {
+                    await signOut(auth);
+                    alert('You have been logged out.');
+                }
+            });
+
+            userMenu.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('show');
+            });
+
+            window.addEventListener('click', e => {
+                if (e.target === loginModal) {
+                    loginModal.style.display = 'none';
+                }
+                if (e.target === signupModal) {
+                    signupModal.style.display = 'none';
+                }
+                if (!userMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                const nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                } else {
+                    nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                }
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initUI();
+            setupEventListeners();
+        });
+    </script>
+</body>
+</html>

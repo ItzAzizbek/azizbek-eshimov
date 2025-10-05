@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eshimov Azizbek - Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./styles/dashboard.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="container nav-container">
+        <div class="logo">EA</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#achievements">Achievements</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="dashboard.html" class="active">Dashboard</a></li>
+          <li><a href="forum.html">Forum</a></li>
+          <li class="user-menu" id="userMenu">
+            <div class="user-profile">
+              <div class="user-avatar" id="userAvatar">U</div>
+              <span id="userName">User</span>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+              <a href="dashboard.html" class="dropdown-item">My Dashboard</a>
+              <a href="#" class="dropdown-item" id="loginBtn">Login</a>
+              <a href="#" class="dropdown-item" id="logoutBtn">Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container dashboard-container">
+      <div class="dashboard-sidebar">
+        <div class="user-profile-card">
+          <div class="user-avatar-large" id="largeUserAvatar">U</div>
+          <div class="user-status status-user" id="userStatus">User</div>
+          <h2 class="user-name" id="dashboardUserName">User</h2>
+          <p class="user-username" id="dashboardUserUsername">@user</p>
+        </div>
+
+        <div class="exp-section">
+          <div class="exp-header">
+            <h3>Level <span id="userLevel">1</span></h3>
+            <span id="userExp">0/100</span>
+          </div>
+          <div class="exp-bar">
+            <div class="exp-progress" id="expProgress" style="width: 0%"></div>
+          </div>
+          <div class="exp-details">
+            <span>EXP</span>
+            <span id="nextLevelExp">100 EXP to next level</span>
+          </div>
+        </div>
+
+        <div class="badges-section">
+          <h3>Badges</h3>
+          <div class="badges-grid" id="badgesGrid"></div>
+        </div>
+      </div>
+
+      <div class="dashboard-main">
+        <div class="dashboard-card">
+          <div class="dashboard-tabs">
+            <div class="tab active" data-tab="activity">Activity Feed</div>
+            <div class="tab" data-tab="customization">
+              Profile Customization
+            </div>
+            <div class="tab" data-tab="stats">Statistics</div>
+          </div>
+
+          <div class="tab-content active" id="activity-tab">
+            <h3>Recent Activity</h3>
+            <div class="activity-feed" id="activityFeed"></div>
+          </div>
+
+          <div class="tab-content" id="customization-tab">
+            <h3>Customize Your Profile</h3>
+            <p>Use your EXP to unlock profile customizations</p>
+            <div class="customization-options" id="customizationOptions"></div>
+          </div>
+
+          <div class="tab-content" id="stats-tab">
+            <h3>Your Statistics</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-value" id="postsCount">0</div>
+                <div class="stat-label">Posts</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="commentsCount">0</div>
+                <div class="stat-label">Comments</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="likesReceived">0</div>
+                <div class="stat-label">Likes Received</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="followersCount">0</div>
+                <div class="stat-label">Followers</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="badgesCount">0</div>
+                <div class="stat-label">Badges</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="daysActive">1</div>
+                <div class="stat-label">Days Active</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>Quick Actions</h3>
+          <div style="display: flex; gap: 15px; margin-top: 15px">
+            <button class="btn" id="createPostBtn">Create Post</button>
+            <a href="./forum.html" class="btn btn-outline" id="exploreForumBtn"
+              >Explore Forum</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Eshimov Azizbek. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+        setDoc,
+        updateDoc,
+        collection,
+        getDocs,
+        query,
+        where,
+        orderBy,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCfQK0tvsnMUSG9ItP3t2Ejh1mnV1tStv4",
+        authDomain: "eshimov-azizbek.firebaseapp.com",
+        projectId: "eshimov-azizbek",
+        storageBucket: "eshimov-azizbek.firebasestorage.app",
+        messagingSenderId: "214963058663",
+        appId: "1:214963058663:web:97dc951037ef2872622f42",
+        measurementId: "G-DQ2CHSH3KF",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const auth = getAuth();
+      const db = getFirestore();
+
+      // Customization options
+      const customizationOptions = [
+        {
+          id: "default",
+          name: "Default Frame",
+          type: "avatarFrame",
+          price: 0,
+          preview: "fas fa-user",
+        },
+        {
+          id: "gold_frame",
+          name: "Gold Frame",
+          type: "avatarFrame",
+          price: 100,
+          preview: "fas fa-crown",
+          color: "linear-gradient(135deg, #FFD700, #FFA500)",
+        },
+        {
+          id: "blue_frame",
+          name: "Blue Frame",
+          type: "avatarFrame",
+          price: 50,
+          preview: "fas fa-gem",
+          color: "linear-gradient(135deg, #2A6EF0, #6AA4FF)",
+        },
+        {
+          id: "default_theme",
+          name: "Default Theme",
+          type: "profileTheme",
+          price: 0,
+          preview: "fas fa-palette",
+        },
+        {
+          id: "dark_theme",
+          name: "Dark Theme",
+          type: "profileTheme",
+          price: 75,
+          preview: "fas fa-moon",
+          color: "#333",
+        },
+        {
+          id: "blue_theme",
+          name: "Blue Theme",
+          type: "profileTheme",
+          price: 50,
+          preview: "fas fa-tint",
+          color: "#2A6EF0",
+        },
+      ];
+
+      // DOM Elements
+      const userAvatar = document.getElementById("userAvatar");
+      const userName = document.getElementById("userName");
+      const largeUserAvatar = document.getElementById("largeUserAvatar");
+      const userStatus = document.getElementById("userStatus");
+      const dashboardUserName = document.getElementById("dashboardUserName");
+      const dashboardUserUsername = document.getElementById(
+        "dashboardUserUsername"
+      );
+      const userLevel = document.getElementById("userLevel");
+      const userExp = document.getElementById("userExp");
+      const expProgress = document.getElementById("expProgress");
+      const nextLevelExp = document.getElementById("nextLevelExp");
+      const badgesGrid = document.getElementById("badgesGrid");
+      const activityFeed = document.getElementById("activityFeed");
+      const customizationOptionsContainer = document.getElementById(
+        "customizationOptions"
+      );
+      const postsCount = document.getElementById("postsCount");
+      const commentsCount = document.getElementById("commentsCount");
+      const likesReceived = document.getElementById("likesReceived");
+      const followersCount = document.getElementById("followersCount");
+      const badgesCount = document.getElementById("badgesCount");
+      const daysActive = document.getElementById("daysActive");
+      const tabs = document.querySelectorAll(".tab");
+      const tabContents = document.querySelectorAll(".tab-content");
+      const userMenu = document.getElementById("userMenu");
+      const dropdownMenu = document.getElementById("dropdownMenu");
+      const loginBtn = document.getElementById("loginBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const loginModal = document.getElementById("loginModal");
+      const closeLoginModal = document.getElementById("closeLoginModal");
+      const loginForm = document.getElementById("loginForm");
+      const signupModal = document.getElementById("signupModal");
+      const closeSignupModal = document.getElementById("closeSignupModal");
+      const signupForm = document.getElementById("signupForm");
+      const showSignup = document.getElementById("showSignup");
+      const showLogin = document.getElementById("showLogin");
+
+      // Initialize Dashboard
+      async function initDashboard() {
+        onAuthStateChanged(auth, async (user) => {
+          if (!user) {
+            window.location.href = "index.html";
+            return;
+          }
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            updateUserInfo(userData);
+            updateBadges(userData);
+            updateActivityFeed(userData);
+            updateStats(userData);
+            updateCustomizationOptions(userData);
+          }
+          loginBtn.style.display = "none";
+          logoutBtn.style.display = "block";
+          setupEventListeners();
+        });
+      }
+
+      // Update user information
+      async function updateUserInfo(userData) {
+        userAvatar.textContent = userData.fullName
+          ? userData.fullName.charAt(0).toUpperCase()
+          : "U";
+        userName.textContent = userData.fullName
+          ? userData.fullName.split(" ")[0]
+          : "User";
+        largeUserAvatar.textContent = userData.fullName
+          ? userData.fullName.charAt(0).toUpperCase()
+          : "U";
+        dashboardUserName.textContent = userData.fullName || "User";
+        dashboardUserUsername.textContent =
+          `@${userData.email.split("@")[0]}` || "@user";
+
+        userStatus.textContent = userData.status || "User";
+        userStatus.className = `user-status status-${
+          userData.status || "user"
+        }`;
+
+        const exp = userData.exp || 0;
+        const level = Math.floor(exp / 100) + 1;
+        const expNeeded = level * 100;
+        const expProgressPercent = Math.min(((exp % 100) / 100) * 100, 100);
+
+        userLevel.textContent = level;
+        userExp.textContent = `${exp}/${expNeeded}`;
+        expProgress.style.width = `${expProgressPercent}%`;
+        nextLevelExp.textContent = `${expNeeded - exp} EXP to next level`;
+
+        // Apply avatar frame if set
+        const customization = userData.customization || {};
+        const avatarFrame = customizationOptions.find(
+          (opt) => opt.id === customization.avatarFrame
+        );
+        if (avatarFrame && avatarFrame.color) {
+          largeUserAvatar.style.background = avatarFrame.color;
+        }
+      }
+
+      // Update badges display
+      async function updateBadges(userData) {
+        const badges = [
+          {
+            id: "welcome",
+            name: "Welcome",
+            description: "Joined the community",
+            icon: "fas fa-star",
+            type: "bronze",
+            earned: true,
+          },
+          {
+            id: "first_post",
+            name: "First Post",
+            description: "Created your first post",
+            icon: "fas fa-pen",
+            type: "bronze",
+            earned: (userData.topics || 0) >= 1,
+          },
+          {
+            id: "commenter",
+            name: "Commenter",
+            description: "Left 10 comments",
+            icon: "fas fa-comment",
+            type: "silver",
+            earned: (userData.comments || 0) >= 10,
+          },
+          {
+            id: "popular",
+            name: "Popular",
+            description: "Received 50 likes",
+            icon: "fas fa-heart",
+            type: "silver",
+            earned: (userData.likesReceived || 0) >= 50,
+          },
+          {
+            id: "expert",
+            name: "Expert",
+            description: "Reached level 5",
+            icon: "fas fa-trophy",
+            type: "gold",
+            earned: Math.floor((userData.exp || 0) / 100) + 1 >= 5,
+          },
+          {
+            id: "influencer",
+            name: "Influencer",
+            description: "Gained 100 followers",
+            icon: "fas fa-users",
+            type: "gold",
+            earned: (userData.followers || 0) >= 100,
+          },
+        ];
+
+        badgesGrid.innerHTML = "";
+        badges.forEach((badge) => {
+          const badgeElement = document.createElement("div");
+          badgeElement.className = `badge ${badge.type} ${
+            badge.earned ? "" : "locked"
+          }`;
+          badgeElement.innerHTML = `
+                    <div class="badge-icon">
+                        <i class="${badge.icon}"></i>
+                    </div>
+                    <div class="badge-name">${badge.name}</div>
+                    <div class="badge-desc">${badge.description}</div>
+                `;
+          badgesGrid.appendChild(badgeElement);
+        });
+
+        badgesCount.textContent = badges.filter((badge) => badge.earned).length;
+      }
+
+      // Update activity feed
+      async function updateActivityFeed(userData) {
+        const activitiesQuery = query(
+          collection(db, "activities"),
+          where("userId", "==", auth.currentUser?.uid || ""),
+          orderBy("timestamp", "desc")
+        );
+        const activitiesSnapshot = await getDocs(activitiesQuery);
+        activityFeed.innerHTML = "";
+
+        if (activitiesSnapshot.empty) {
+          activityFeed.innerHTML =
+            '<p style="text-align: center; color: #777; padding: 20px;">No recent activity.</p>';
+          return;
+        }
+
+        activitiesSnapshot.forEach((doc) => {
+          const activity = doc.data();
+          const activityElement = document.createElement("div");
+          activityElement.className = "activity-item";
+
+          let iconClass = "";
+          switch (activity.type) {
+            case "like":
+              iconClass = "activity-like fas fa-heart";
+              break;
+            case "comment":
+              iconClass = "activity-comment fas fa-comment";
+              break;
+            case "follow":
+              iconClass = "activity-follow fas fa-user-plus";
+              break;
+            case "badge":
+              iconClass = "activity-badge fas fa-award";
+              break;
+            case "exp":
+              iconClass = "activity-exp fas fa-star";
+              break;
+            case "customization":
+              iconClass = "activity-exp fas fa-paint-brush";
+              break;
+          }
+
+          activityElement.innerHTML = `
+                    <div class="activity-icon ${activity.type}">
+                        <i class="${iconClass}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-message">${activity.message}</div>
+                        <div class="activity-time">${formatTimestamp(
+                          activity.timestamp
+                        )}</div>
+                    </div>
+                `;
+          activityFeed.appendChild(activityElement);
+        });
+      }
+
+      // Format timestamp
+      function formatTimestamp(firebaseTimestamp) {
+        if (!firebaseTimestamp) return "Just now";
+        const date = firebaseTimestamp.toDate();
+        const now = new Date();
+        const diff = (now - date) / (1000 * 60 * 60 * 24);
+        if (diff < 1) return "Today";
+        if (diff < 2) return "Yesterday";
+        if (diff < 7) return `${Math.floor(diff)} days ago`;
+        return `${Math.floor(diff / 7)} week${
+          Math.floor(diff / 7) > 1 ? "s" : ""
+        } ago`;
+      }
+
+      // Update statistics
+      async function updateStats(userData) {
+        postsCount.textContent = userData.topics || 0;
+        commentsCount.textContent = userData.comments || 0;
+
+        // Calculate likes received
+        const votesQuery = query(
+          collection(db, "votes"),
+          where("authorId", "==", auth.currentUser?.uid || ""),
+          where("voteType", "==", "up")
+        );
+        const votesSnapshot = await getDocs(votesQuery);
+        likesReceived.textContent = votesSnapshot.size;
+
+        followersCount.textContent = userData.followers || 0;
+        daysActive.textContent = userData.daysActive || 1;
+      }
+
+      // Update customization options
+      async function updateCustomizationOptions(userData) {
+        const unlocked = userData.unlockedCustomizations || ["default"];
+        const customization = userData.customization || {};
+
+        customizationOptionsContainer.innerHTML = "";
+
+        customizationOptions.forEach((option) => {
+          const isUnlocked = unlocked.includes(option.id);
+          const isSelected = customization[option.type] === option.id;
+          const optionElement = document.createElement("div");
+          optionElement.className = `customization-item ${
+            isSelected ? "selected" : ""
+          } ${isUnlocked ? "" : "customization-locked"}`;
+          optionElement.dataset.id = option.id;
+          optionElement.dataset.type = option.type;
+          optionElement.dataset.price = option.price;
+
+          if (isUnlocked) {
+            optionElement.addEventListener("click", () =>
+              selectCustomization(option)
+            );
+          } else if (userData.exp >= option.price) {
+            optionElement.addEventListener("click", () =>
+              unlockCustomization(option)
+            );
+          }
+
+          let previewStyle = option.color
+            ? `style="background: ${option.color}; color: white;"`
+            : "";
+
+          optionElement.innerHTML = `
+                    <div class="customization-preview" ${previewStyle}>
+                        <i class="${option.preview}"></i>
+                    </div>
+                    <div class="customization-name">${option.name}</div>
+                    <div class="customization-price">
+                        ${
+                          isUnlocked
+                            ? option.price === 0
+                              ? "FREE"
+                              : "UNLOCKED"
+                            : `${option.price} EXP`
+                        }
+                    </div>
+                `;
+          customizationOptionsContainer.appendChild(optionElement);
+        });
+      }
+
+      // Select customization
+      async function selectCustomization(option) {
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "index.html";
+          return;
+        }
+
+        const userRef = doc(db, "users", user.uid);
+        await updateDoc(userRef, {
+          [`customization.${option.type}`]: option.id,
+        });
+
+        if (option.type === "avatarFrame" && option.color) {
+          largeUserAvatar.style.background = option.color;
+        }
+
+        const userDoc = await getDoc(userRef);
+        updateCustomizationOptions(userDoc.data());
+        alert(`Applied ${option.name} to your profile!`);
+      }
+
+      // Unlock customization
+      async function unlockCustomization(option) {
+        const user = auth.currentUser;
+        if (!user) {
+          window.location.href = "index.html";
+          return;
+        }
+
+        const userRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
+
+        if (userData.exp < option.price) {
+          alert("Not enough EXP to unlock this customization");
+          return;
+        }
+
+        await updateDoc(userRef, {
+          unlockedCustomizations: firebase.firestore.FieldValue.arrayUnion(
+            option.id
+          ),
+          exp: firebase.firestore.FieldValue.increment(-option.price),
+        });
+
+        await addDoc(collection(db, "activities"), {
+          userId: user.uid,
+          type: "customization",
+          message: `Unlocked ${option.name} customization`,
+          timestamp: new Date(),
+        });
+
+        const updatedUserDoc = await getDoc(userRef);
+        updateCustomizationOptions(updatedUserDoc.data());
+        updateUserInfo(updatedUserDoc.data());
+        updateActivityFeed(updatedUserDoc.data());
+        alert(`Unlocked ${option.name} for ${option.price} EXP!`);
+      }
+
+      // Setup event listeners
+      function setupEventListeners() {
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            tabs.forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            tabContents.forEach((content) => {
+              content.classList.remove("active");
+              if (content.id === `${tab.dataset.tab}-tab`) {
+                content.classList.add("active");
+              }
+            });
+          });
+        });
+
+        document
+          .getElementById("createPostBtn")
+          .addEventListener("click", () => {
+            if (!auth.currentUser) {
+              window.location.href = "index.html";
+              return;
+            }
+            window.location.href = "forum.html";
+          });
+
+        userMenu.addEventListener("click", () => {
+          dropdownMenu.classList.toggle("show");
+        });
+
+        loginBtn.addEventListener("click", () => {
+          loginModal.style.display = "flex";
+        });
+
+        logoutBtn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          if (confirm("Are you sure you want to log out?")) {
+            await signOut(auth);
+            window.location.href = "index.html";
+          }
+        });
+
+        closeLoginModal.addEventListener("click", () => {
+          loginModal.style.display = "none";
+        });
+
+        closeSignupModal.addEventListener("click", () => {
+          signupModal.style.display = "none";
+        });
+
+        showSignup.addEventListener("click", () => {
+          loginModal.style.display = "none";
+          signupModal.style.display = "flex";
+        });
+
+        showLogin.addEventListener("click", () => {
+          signupModal.style.display = "none";
+          loginModal.style.display = "flex";
+        });
+
+        loginForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("loginEmail").value;
+          const password = document.getElementById("loginPassword").value;
+
+          try {
+            await signInWithEmailAndPassword(auth, email, password);
+            loginModal.style.display = "none";
+            loginForm.reset();
+            alert("Logged in successfully!");
+          } catch (error) {
+            alert("Login failed: " + error.message);
+          }
+        });
+
+        signupForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const fullName = document.getElementById("signupName").value;
+          const email = document.getElementById("signupEmail").value;
+          const password = document.getElementById("signupPassword").value;
+
+          try {
+            const userCredential = await createUserWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            const user = userCredential.user;
+
+            await setDoc(doc(db, "users", user.uid), {
+              fullName,
+              email,
+              status: "user",
+              exp: 0,
+              topics: 0,
+              comments: 0,
+              followers: 0,
+              daysActive: 1,
+              unlockedCustomizations: ["default"],
+              customization: {
+                avatarFrame: "default",
+                profileTheme: "default",
+                badgeDisplay: "default",
+              },
+            });
+
+            await addDoc(collection(db, "activities"), {
+              userId: user.uid,
+              type: "badge",
+              message: "Earned the Welcome badge",
+              timestamp: new Date(),
+            });
+
+            signupModal.style.display = "none";
+            signupForm.reset();
+            alert("Account created successfully!");
+          } catch (error) {
+            alert("Signup failed: " + error.message);
+          }
+        });
+
+        window.addEventListener("click", (e) => {
+          if (e.target === loginModal) {
+            loginModal.style.display = "none";
+          }
+          if (e.target === signupModal) {
+            signupModal.style.display = "none";
+          }
+          if (!userMenu.contains(e.target)) {
+            dropdownMenu.classList.remove("show");
+          }
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", initDashboard);
+    </script>
+  </body>
+</html>
