@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    
+    <title>The Azizbek Network | Ecosystem Status & Services</title>
+    <meta name="title" content="The Azizbek Network | Ecosystem Status & Services" />
+    <meta name="description" content="Access The Azizbek Network ecosystem. Check real-time system status for Azizbek ID, Pay, Store, AI, and more. A unified digital identity and service platform." />
+    <meta name="keywords" content="Azizbek Network, Azizbek ID, Azizbek Pay, Azizbek AI, System Status, Digital Ecosystem" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Azizbek Eshimov" />
+    <link rel="canonical" href="https://azizbek.xyz/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://azizbek.xyz/" />
+    <meta property="og:title" content="The Azizbek Network | Ecosystem Status" />
+    <meta property="og:description" content="A unified ecosystem connecting payment, communication, retail, and AI. View real-time service availability." />
+    <meta property="og:image" content="https://azizbek.xyz/logo.png" />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://azizbek.xyz/" />
+    <meta property="twitter:title" content="The Azizbek Network | Ecosystem Status" />
+    <meta property="twitter:description" content="A unified ecosystem connecting payment, communication, retail, and AI. View real-time service availability." />
+    <meta property="twitter:image" content="https://azizbek.xyz/logo.png" />
+
+    <link rel="icon" type="image/png" href="./logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "The Azizbek Network",
+      "url": "https://azizbek.xyz",
+      "logo": "https://azizbek.xyz/logo.png",
+      "description": "An ecosystem of various products & services from payment to stores including Azizbek ID, Pay, and AI.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Azizbek"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://azizbek.xyz/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <style>
+      :root {
+        --bg-color: #050505;
+        --card-bg: #141414;
+        --text-main: #ffffff;
+        --text-muted: #a0a0a0;
+        --accent: #6366f1;
+        --status-available: #10b981;
+        --status-dev: #3b82f6;
+        --status-break: #f59e0b;
+        --status-crit: #ef4444;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Inter", sans-serif;
+      }
+      /* Prevent horizontal scroll on mobile */
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        overflow-x: hidden;
+        width: 100%;
+      }
+
+      /* --- Background FX --- */
+      .bg-orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        opacity: 0.4;
+        z-index: -1;
+        animation: float 10s infinite ease-in-out;
+        pointer-events: none;
+      }
+      .orb-1 {
+        top: -10%;
+        left: -10%;
+        width: 50vw;
+        height: 50vw;
+        background: radial-gradient(circle, #4f46e5, transparent);
+      }
+      .orb-2 {
+        bottom: -10%;
+        right: -10%;
+        width: 40vw;
+        height: 40vw;
+        background: radial-gradient(circle, #ec4899, transparent);
+        animation-delay: -5s;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        50% {
+          transform: translate(20px, 40px);
+        }
+      }
+
+      /* --- Header Responsive Typography & Spacing --- */
+      header {
+        min-height: 90vh; /* Slightly less than full height for better mobile feel */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 4rem 1.5rem 2rem; /* Adjusted padding for smaller screens */
+        perspective: 1000px;
+        position: relative;
+      }
+
+      h1 {
+        font-size: 4rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+        background: linear-gradient(to right, #fff, #a5a5a5);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        max-width: 600px;
+        line-height: 1.6;
+        margin-bottom: 3rem;
+      }
+
+      /* --- Responsive Global Status Gauge --- */
+      .status-gauge-container {
+        position: relative;
+        /* Fluid width with a max cap */
+        width: 100%;
+        max-width: 180px;
+        /* Ensures it stays a perfect square as it scales down */
+        aspect-ratio: 1 / 1;
+        margin: 0 auto 3rem auto;
+      }
+
+      /* SVG must not have width/height attributes for this to work */
+      svg.progress-ring {
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+      }
+
+      circle {
+        transition: stroke-dashoffset 1s ease-in-out, stroke 0.5s ease;
+        transform-origin: 50% 50%;
+      }
+      .gauge-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+      #global-percent {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: white;
+        line-height: 1;
+      }
+      .gauge-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        margin-top: 5px;
+        text-align: center;
+      }
+
+      /* --- Responsive Grid & Cards --- */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 1.5rem; /* Reduced vertical padding for mobile */
+      }
+      .section-title {
+        font-size: 2rem;
+        margin-bottom: 2.5rem;
+        border-left: 4px solid var(--accent);
+        padding-left: 1rem;
+      }
+
+      .grid {
+        display: grid;
+        /* Lowered minmax to 260px for better fit on smaller phones without overflow */
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+        min-height: 200px;
+      }
+
+      .card {
+        background: rgba(20, 20, 20, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 2rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      /* Only hover effect on devices that support hover */
+      @media (hover: hover) {
+        .card:hover {
+          transform: translateY(-10px) scale(1.02);
+          border-color: var(--accent);
+          box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+      }
+
+      .icon-wrapper {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, var(--accent), #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        width: fit-content;
+      }
+      .card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .card p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+        flex-grow: 1;
+        line-height: 1.5;
+      }
+
+      /* --- Status Badges --- */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 30px;
+        text-transform: uppercase;
+        width: fit-content;
+        letter-spacing: 0.5px;
+      }
+      .status-available {
+        background: rgba(16, 185, 129, 0.15);
+        color: var(--status-available);
+      }
+      .status-dev {
+        background: rgba(59, 130, 246, 0.15);
+        color: var(--status-dev);
+      }
+      .status-break {
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--status-break);
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .status-available .dot {
+        background-color: var(--status-available);
+        box-shadow: 0 0 8px var(--status-available);
+      }
+      .status-dev .dot {
+        background-color: var(--status-dev);
+      }
+      .status-break .dot {
+        background-color: var(--status-break);
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      /* --- Links --- */
+      .card-link {
+        margin-top: 1.5rem;
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        font-size: 0.9rem;
+        border-bottom: 1px solid var(--accent);
+        transition: opacity 0.2s;
+        padding-bottom: 2px;
+      }
+      .card-link:hover {
+        opacity: 0.8;
+      }
+      .no-link {
+        margin-top: 1.5rem;
+        font-size: 0.85rem;
+        color: #555;
+        font-style: italic;
+        cursor: not-allowed;
+      }
+
+      /* --- Utilities --- */
+      .loading-msg {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        flex-direction: column;
+      }
+      .spinner {
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-left-color: var(--accent);
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .seeding-notification {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #1f1f1f;
+        border: 1px solid var(--accent);
+        padding: 15px;
+        border-radius: 8px;
+        z-index: 1000;
+        display: none;
+        animation: slideIn 0.5s ease;
+        max-width: 90%;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+      .hidden {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .show {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.6s ease-out;
+      }
+      footer {
+        text-align: center;
+        padding: 3rem;
+        color: #444;
+        font-size: 0.8rem;
+        border-top: 1px solid #1a1a1a;
+      }
+
+      /* --- MEDIA QUERIES FOR PIXEL PERFECTION --- */
+
+      /* Tablet / Small Laptop */
+      @media (max-width: 1024px) {
+        h1 {
+          font-size: 3.5rem;
+        }
+      }
+
+      /* Mobile Devices */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.75rem;
+        }
+        .subtitle {
+          font-size: 1rem;
+        }
+        header {
+          padding-top: 6rem;
+          min-height: auto;
+        } /* Allow content to dictate height on mobile */
+        .container {
+          padding: 3rem 1.5rem;
+        }
+        /* Adjust gauge text size if it gets too small */
+        #global-percent {
+          font-size: 2rem;
+        }
+        .gauge-label {
+          font-size: 0.65rem;
+        }
+      }
+
+      /* Small Mobile Devices (e.g., older iPhones) */
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 2.25rem;
+          letter-spacing: -1px;
+        }
+        .section-title {
+          font-size: 1.75rem;
+        }
+        .card {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <div id="seed-toast" class="seeding-notification">
+      <i class="fa-solid fa-database"></i> &nbsp; Initializing Database...
+    </div>
+
+    <header id="home">
+      <div id="hero-text">
+        <h1>The Azizbek Network</h1>
+        <p class="subtitle">Unified Ecosystem. Real-time Status.</p>
+      </div>
+
+      <div class="status-gauge-container">
+        <svg class="progress-ring" viewBox="0 0 180 180" aria-hidden="true">
+          <circle
+            stroke="#333"
+            stroke-width="8"
+            fill="transparent"
+            r="80"
+            cx="90"
+            cy="90"
+          />
+          <circle
+            id="status-circle"
+            stroke="#6366f1"
+            stroke-width="8"
+            stroke-linecap="round"
+            fill="transparent"
+            r="80"
+            cx="90"
+            cy="90"
+            stroke-dasharray="502"
+            stroke-dashoffset="502"
+          />
+        </svg>
+        <div class="gauge-text">
+          <span id="global-percent">0%</span>
+          <span class="gauge-label">System Integrity</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <h2 class="section-title">Product Matrix</h2>
+      <div class="grid" id="product-grid">
+        <div class="loading-msg">
+          <div class="spinner"></div>
+          <br />
+          Fetching Network Data...
+        </div>
+      </div>
+    </div>
+
+    <footer>&copy; 2023 The Azizbek Network.</footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        orderBy,
+        onSnapshot,
+        addDoc,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+      // --- CONFIGURATION ---
+      const firebaseConfig = {
+        apiKey: "AIzaSyCi1lvTlTu6XCAMOFB-nIhxkXYHY5Z2xaY",
+        authDomain: "the-azizbek-network.firebaseapp.com",
+        projectId: "the-azizbek-network",
+        storageBucket: "the-azizbek-network.firebasestorage.app",
+        messagingSenderId: "272522714817",
+        appId: "1:272522714817:web:496e9631811a0638c9fe40",
+        measurementId: "G-WJY0TVTENV",
+      };
+
+      const defaultProducts = [
+        {
+          order: 1,
+          name: "Azizbek ID",
+          desc: "Your single digital identity passport.",
+          icon: "fa-id-card",
+        },
+        {
+          order: 2,
+          name: "Azizbek Pay",
+          desc: "Seamless, secure, and instant payments.",
+          icon: "fa-wallet",
+        },
+        {
+          order: 3,
+          name: "Azizbek Store",
+          desc: "The premier marketplace for goods.",
+          icon: "fa-shop",
+        },
+        {
+          order: 4,
+          name: "Azizbek Calories",
+          desc: "Smart nutrition tracking.",
+          icon: "fa-apple-whole",
+        },
+        {
+          order: 5,
+          name: "Azizbek Chat",
+          desc: "Encrypted messaging suite.",
+          icon: "fa-comments",
+        },
+        {
+          order: 6,
+          name: "Azizbek AI",
+          desc: "Next-gen artificial intelligence.",
+          icon: "fa-brain",
+        },
+        {
+          order: 7,
+          name: "Azizbek Eshimov",
+          desc: "Personal branding & portfolio.",
+          icon: "fa-user-astronaut",
+        },
+      ];
+
+      let db;
+      const grid = document.getElementById("product-grid");
+      const toast = document.getElementById("seed-toast");
+
+      // UI Elements for Gauge
+      const circle = document.getElementById("status-circle");
+      const percentText = document.getElementById("global-percent");
+      // SVG geometry calculations
+      const radius = 80; // Hardcoded based on SVG r="80"
+      const circumference = radius * 2 * Math.PI;
+
+      // Init Gauge properties
+      circle.style.strokeDasharray = `${circumference} ${circumference}`;
+      circle.style.strokeDashoffset = circumference;
+
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+      } catch (e) {
+        console.error("Firebase Init Error", e);
+        grid.innerHTML = `<div class='loading-msg' style='color: #ef4444'>Failed to connect. Check config.</div>`;
+      }
+
+      if (db) {
+        const collectionRef = collection(db, "products");
+        getDocs(collectionRef).then(async (snapshot) => {
+          if (snapshot.empty) {
+            seedDatabase(collectionRef);
+          } else {
+            subscribeToData(collectionRef);
+          }
+        });
+      }
+
+      // --- CALCULATION LOGIC ---
+      function updateGlobalStatus(productsData) {
+        if (productsData.length === 0) return;
+
+        let totalScore = 0;
+
+        productsData.forEach((p) => {
+          if (p.status === "Available") {
+            totalScore += 100;
+          } else if (p.status === "Tech Break") {
+            totalScore += 50; // Partial credit for being online but broken
+          }
+          // Development = 0
+        });
+
+        // Calculate Average
+        const finalPercent = Math.round(totalScore / productsData.length);
+
+        // Animate Gauge
+        const offset = circumference - (finalPercent / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+
+        // Animate Number Counter
+        let currentNum = parseInt(percentText.innerText);
+        const animateNum = setInterval(() => {
+          if (currentNum < finalPercent) currentNum++;
+          else if (currentNum > finalPercent) currentNum--;
+          else clearInterval(animateNum);
+
+          percentText.innerText = `${currentNum}%`;
+        }, 20);
+
+        // Dynamic Color Logic
+        let color = "#ef4444"; // Red (Crit)
+        if (finalPercent > 30) color = "#f59e0b"; // Orange/Yellow
+        if (finalPercent > 60) color = "#3b82f6"; // Blue
+        if (finalPercent > 85) color = "#10b981"; // Green
+
+        circle.style.stroke = color;
+        percentText.style.color = color;
+      }
+
+      async function seedDatabase(ref) {
+        toast.style.display = "block";
+        try {
+          const promises = defaultProducts.map((product) => {
+            return addDoc(ref, { ...product, status: "Development" });
+          });
+          await Promise.all(promises);
+          setTimeout(() => {
+            toast.style.display = "none";
+            subscribeToData(ref);
+          }, 1500);
+        } catch (e) {
+          console.error("Seed Error", e);
+        }
+      }
+
+      function subscribeToData(ref) {
+        const q = query(ref, orderBy("order"));
+        onSnapshot(q, (snapshot) => {
+          grid.innerHTML = "";
+          const productsData = [];
+
+          if (snapshot.empty) return;
+
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            productsData.push(data);
+            renderCard(data);
+          });
+
+          // Update the Gauge based on new data
+          updateGlobalStatus(productsData);
+
+          // Reveal Cards
+          const cards = document.querySelectorAll(".card");
+          cards.forEach((card, index) => {
+            setTimeout(() => card.classList.add("show"), index * 100);
+          });
+        });
+      }
+
+      function getSubdomain(fullName) {
+        return fullName.toLowerCase().replace("azizbek ", "").replace(" ", "");
+      }
+
+      function renderCard(product) {
+        const subdomain = getSubdomain(product.name);
+        const url = `https://${subdomain}.azizbek.xyz`;
+
+        let statusClass = "";
+        let linkHtml = "";
+
+        // Added rel="noopener noreferrer" for security and aria-labels for accessibility/SEO
+        if (product.status === "Available") {
+          statusClass = "status-available";
+          linkHtml = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="card-link" aria-label="Launch ${product.name}">Launch App <i class="fa-solid fa-arrow-right"></i></a>`;
+        } else if (product.status === "Development") {
+          statusClass = "status-dev";
+          linkHtml = `<span class="no-link">Coming Soon</span>`;
+        } else if (product.status === "Tech Break") {
+          statusClass = "status-break";
+          linkHtml = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="card-link" style="color:var(--status-break)" aria-label="Check Status of ${product.name}">Check Status <i class="fa-solid fa-triangle-exclamation"></i></a>`;
+        }
+
+        const card = document.createElement("div");
+        card.className = "card hidden";
+        card.innerHTML = `
+                <div class="icon-wrapper">
+                    <i class="fa-solid ${product.icon}"></i>
+                </div>
+                <h3>${product.name}</h3>
+                <p>${product.desc}</p>
+                <div class="meta">
+                    <div class="status-badge ${statusClass}">
+                        <div class="dot"></div> ${product.status}
+                    </div>
+                    <br>
+                    ${linkHtml}
+                </div>
+            `;
+        grid.appendChild(card);
+      }
+
+      // Only enable mouse parallax on desktops (devices that hover)
+      if (window.matchMedia("(hover: hover)").matches) {
+        document.addEventListener("mousemove", (e) => {
+          const heroText = document.getElementById("hero-text");
+          const mouseX = e.clientX / window.innerWidth - 0.5;
+          const mouseY = e.clientY / window.innerHeight - 0.5;
+          heroText.style.transform = `translate(${mouseX * -30}px, ${
+            mouseY * -30
+          }px)`;
+        });
+      }
+    </script>
+  </body>
+</html>
